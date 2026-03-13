@@ -1,0 +1,21 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # Every day at 7:00 UTC
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Make a daily commit
+        run: |
+          echo "Daily contribution: $(date)" >> daily_commit_log.txt
+          git config user.name "SandeshSatishNaik"
+          git config user.email "sandeshsatishnaik@gmail.com"
+          git add daily_commit_log.txt
+          git commit -m "chore: daily contribution [skip ci]" || echo "No changes to commit"
+          git push
