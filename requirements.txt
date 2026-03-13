@@ -1,0 +1,6 @@
+groq
+google-generativeai
+tenacity
+python-dotenv
+fastapi
+uvicorn

@@ -1,0 +1,8 @@
+The plan is good, but apply these 4 mandatory production constraints before writing code:
+
+1. CONCURRENCY LIMIT: In `main.py`, you must implement an `asyncio.Semaphore(2)` and pass it to the generator and evaluation tasks to prevent RPS burst limits from immediately triggering 429s.
+2. ROBUST PARSING: Do not rely solely on `.replace()`. In `main.py`, use the `re` module (`re.search(r'\{.*\}', text, re.DOTALL)`) to extract the JSON dictionary. Free models often prepend conversational text before the JSON block.
+3. TELEMETRY: In `main.py`'s `parse_and_vote` function, ensure you include the `execution_log` dictionary at the very end (capturing query, winner_idx, eval_success_rate, and score_variance) as defined in my original instructions.
+4. FILE SYSTEM ISOLATION: Do not use the C: drive for any installations or downloads. Only use the provided workfolder. If Python is needed, create a local virtual environment (`venv`) within this workfolder and install all dependencies strictly inside it.
+
+Update the plan to reflect these 4 changes and wait for my approval

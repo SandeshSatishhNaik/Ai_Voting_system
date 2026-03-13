@@ -1,0 +1,8 @@
+The SSE architecture is correct, but apply these 3 mandatory production constraints before writing code:
+
+1. FRONTEND STATE ALIGNMENT: The React frontend relies on specific status strings. As agents progress, the queue must yield events like `{"agent_id": "A", "status": "generating"}` and `{"agent_id": "A", "status": "evaluating"}`.
+2. RATE LIMIT DEGRADATION: If an agent's evaluation fails entirely (e.g., Tenacity gives up on 429s or JSON parsing fails repeatedly), you MUST push an event to the queue shaped exactly as: `{"agent_id": "A", "evalStatus": "rate_limited"}`. This triggers the frontend warning UI.
+3. QUEUE DEADLOCK PREVENTION: The background task that waits for all 5 agents to finish MUST wrap the `await asyncio.gather(...)` call in a try/except block (or use `return_exceptions=True`), guaranteeing that the final `{"status": "done"}` signal is ALWAYS pushed to the queue, even if all 5 agents catastrophically fail.
+4. STRICT SSE FORMATTING: Ensure all yielded strings from the generator are strictly formatted as `f"data: {json.dumps(payload)}\n\n"`.
+
+Update the plan to reflect these constraints, then proceed to implement all files.
