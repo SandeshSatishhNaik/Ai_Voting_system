@@ -21,4 +21,4 @@ jobs:
           git config user.email "sandeshsatishnaik@gmail.com"
           git add daily_commit_log.txt
           git commit -m "chore: daily contribution [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:${{ github.ref_name }}
+          git push origin HEAD:${{ github.ref }}
